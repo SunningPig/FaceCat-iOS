@@ -7437,8 +7437,8 @@
             filePath = "FaceCat_ios/Product/UI/UIXmlEx.mm"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "71"
-            endingLineNumber = "71"
+            startingLineNumber = "70"
+            endingLineNumber = "70"
             landmarkName = "UIXmlEx::createView(node, type)"
             landmarkType = "7">
          </BreakpointContent>
@@ -7453,9 +7453,9 @@
             filePath = "FaceCat_ios/iOS/IOSHost.mm"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "439"
-            endingLineNumber = "439"
-            landmarkName = "IOSHost::getTouches(touchArray, touchInfo)"
+            startingLineNumber = "438"
+            endingLineNumber = "438"
+            landmarkName = "IOSHost::invalidate()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -7469,9 +7469,9 @@
             filePath = "FaceCat_ios/iOS/IOSHost.mm"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "447"
-            endingLineNumber = "447"
-            landmarkName = "IOSHost::invalidate()"
+            startingLineNumber = "446"
+            endingLineNumber = "446"
+            landmarkName = "IOSHost::invalidate(rect)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -8621,8 +8621,8 @@
             filePath = "FaceCat_ios/iOS/ContextPaintEx.mm"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "667"
-            endingLineNumber = "667"
+            startingLineNumber = "666"
+            endingLineNumber = "666"
             landmarkName = "ContextPaintEx::drawText(strText, dwPenColor, font, rect, width)"
             landmarkType = "7">
          </BreakpointContent>
@@ -8637,8 +8637,8 @@
             filePath = "FaceCat_ios/iOS/ContextPaintEx.mm"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "673"
-            endingLineNumber = "673"
+            startingLineNumber = "672"
+            endingLineNumber = "672"
             landmarkName = "ContextPaintEx::drawText(strText, dwPenColor, font, rect, width)"
             landmarkType = "7">
          </BreakpointContent>
@@ -8653,8 +8653,8 @@
             filePath = "FaceCat_ios/iOS/ContextPaintEx.mm"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "56"
-            endingLineNumber = "56"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
             landmarkName = "ContextPaintEx::getUIFont(font)"
             landmarkType = "7">
          </BreakpointContent>
@@ -8669,8 +8669,8 @@
             filePath = "FaceCat_ios/iOS/ContextPaintEx.mm"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "57"
-            endingLineNumber = "57"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
             landmarkName = "ContextPaintEx::getUIFont(font)"
             landmarkType = "7">
          </BreakpointContent>
