@@ -45,7 +45,7 @@ IOSHost::IOSHost(){
 
 IOSHost::~IOSHost(){
     m_native = 0;
-    map<int, IOSTimer*>::iterator sIter = m_timers.begin();
+    std::map<int, IOSTimer*>::iterator sIter = m_timers.begin();
     for(; sIter != m_timers.end(); ++sIter){
         delete sIter->second;
     }
@@ -100,7 +100,7 @@ CGSize IOSHost::getCGSize(const FCSize& size){
 }
 
 NSString* IOSHost::getNSString(const wchar_t *str){
-    string fstr = FCTran::StringTostring(str);
+    std::string fstr = FCTran::StringTostring(str);
     return [NSString stringWithUTF8String:fstr.c_str()];
 }
 
@@ -148,7 +148,7 @@ void IOSHost::beginInvoke(FCView *control, void *args){
     }
 }
 
-void IOSHost::copy(string text){
+void IOSHost::copy(std::string text){
     UIPasteboard *paste = [UIPasteboard generalPasteboard];
     if(paste){
         NSString *nsStr = [NSString stringWithUTF8String:text.c_str()];
@@ -346,10 +346,10 @@ FCCursors IOSHost::getCursor(){
 }
 
 int IOSHost::getIntersectRect(FCRect *lpDestRect, const FCRect *lpSrc1Rect, const FCRect *lpSrc2Rect){
-    lpDestRect->left = max(lpSrc1Rect->left, lpSrc2Rect->left);
-    lpDestRect->right = min(lpSrc1Rect->right, lpSrc2Rect->right);
-    lpDestRect->top = max(lpSrc1Rect->top, lpSrc2Rect->top);
-    lpDestRect->bottom = min(lpSrc1Rect->bottom, lpSrc2Rect->bottom);
+    lpDestRect->left = std::max(lpSrc1Rect->left, lpSrc2Rect->left);
+    lpDestRect->right = std::min(lpSrc1Rect->right, lpSrc2Rect->right);
+    lpDestRect->top = std::max(lpSrc1Rect->top, lpSrc2Rect->top);
+    lpDestRect->bottom = std::min(lpSrc1Rect->bottom, lpSrc2Rect->bottom);
     if(lpDestRect->right >= lpDestRect->left && lpDestRect->bottom >= lpDestRect->top){
         return 1;
     }
@@ -549,7 +549,7 @@ void IOSHost::onTimer(){
     if(m_native){
         if(m_isViewAppear){
             ArrayList<int> timerIDs;
-            map<int, IOSTimer*>::iterator sIter = m_timers.begin();
+            std::map<int, IOSTimer*>::iterator sIter = m_timers.begin();
             for(; sIter != m_timers.end(); ++sIter){
                 IOSTimer *timer = sIter->second;
                 if (timer->m_tick % timer->m_interval == 0){
@@ -566,7 +566,7 @@ void IOSHost::onTimer(){
     }
 }
 
-string IOSHost::paste(){
+std::string IOSHost::paste(){
     UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
     if(pasteboard && pasteboard.string){
         return [pasteboard.string UTF8String];
@@ -596,7 +596,7 @@ void IOSHost::startTimer(int timerID, int interval){
         interval = 1;
     }
     //m_lock.lock();
-    map<int, IOSTimer*>::iterator sIter = m_timers.find(timerID);
+    std::map<int, IOSTimer*>::iterator sIter = m_timers.find(timerID);
     if(sIter != m_timers.end()){
         sIter->second->m_interval = interval;
         sIter->second->m_tick = 0;
@@ -612,7 +612,7 @@ void IOSHost::startTimer(int timerID, int interval){
 
 void IOSHost::stopTimer(int timerID){
     //m_lock.lock();
-    map<int, IOSTimer*>::iterator sIter = m_timers.find(timerID);
+    std::map<int, IOSTimer*>::iterator sIter = m_timers.find(timerID);
     if(sIter != m_timers.end()){
         delete sIter->second;
         m_timers.erase(sIter);

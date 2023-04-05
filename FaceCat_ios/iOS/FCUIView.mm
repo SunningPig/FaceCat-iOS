@@ -14,28 +14,79 @@
 
 @interface FCUIView ()<SYDatePickerDelegate>
 {
+    /*
+     * 是否允许滚动
+     */
     bool m_allowScroll;
+    /*
+     * 绘图对象
+     */
     ContextPaintEx *m_ContextPaintEx;
     //UIDatePicker *m_datePicker;
+    /*
+     * 日期改变器
+     */
     SYDatePicker *m_datePicker;
+    /*
+     * 时间设置器
+     */
     DateTimeButton *m_editingDateTimeButton;
+    /*
+     * 编辑中的文本框
+     */
     FCTextBox *m_editingTextBox;
+    /*
+     * 设备
+     */
     IOSHost *m_host;
+    /*
+     * 方法库
+     */
     FCNative *m_native;
+    /*
+     * 绘图对象
+     */
     FCPaint *m_paint;
+    /*
+     * 滚动视图
+     */
     UIScrollView *m_scrollView;
+    /*
+     * 输入框
+     */
     UITextField *m_textBox;
+    /*
+     * 所有的浏览器
+     */
     ArrayList<WKWebView*> m_webViews;
+    /*
+     * 浏览器的锁
+     */
     FCLock m_webViewsLock;
+    /*
+     * 上次焦点的视图
+     */
     FCView *m_oldFocusedControl;
+    /*
+     * 缩放比例
+     */
     double m_scaleFactor;
+    /*
+     * 主视图
+     */
     UIViewController *m_viewController;
+    /*
+     * 菜单
+     */
     void *m_menuTarget;
 }
 @end
 
 @implementation FCUIView
 
+/*
+ * 秒表方法
+ */
 - (void)printString:(NSString*)paramString{
     if(m_host){
         m_host->onTimer();
@@ -43,54 +94,87 @@
     }
 }
 
+/*
+ * 设置是否允许滚动
+ */
 -(void)setAllowScroll: (bool)allowScroll
 {
     m_allowScroll = allowScroll;
 }
 
+/*
+ * 绘图方法
+ */
 -(void)drawRect:(CGRect)rect
 {
     [self onPaint:rect];
 }
 
+/*
+ * 获取设备
+ */
 -(IOSHost*)getHost
 {
     return m_host;
 }
 
+/*
+ * 获取方法
+ */
 -(FCNative*)getNative
 {
     return m_native;
 }
 
+/*
+ * 获取绘图对象
+ */
 -(FCPaint*)getPaint
 {
     return m_paint;
 }
 
+/*
+ * 获取上次焦点的视图
+ */
 -(FCView*)getLastFocusedView{
     return m_oldFocusedControl;
 }
 
+/*
+ * 获取文本框
+ */
 -(UITextField*)getUITextField{
     return m_textBox;
 }
 
+/*
+ * 设置区域
+ */
 -(void)setFrame:(CGRect)frame
 {
     [super setFrame:frame];
     [self resetLayout];
 }
 
+/*
+ * 获取缩放比例
+ */
 -(double)getScaleFactor{
     return m_scaleFactor;
 }
 
+/*
+ * 设置缩放比例
+ */
 -(void)setScaleFactor:(double)scaleFactor{
     m_scaleFactor = scaleFactor;
     [self resetLayout];
 }
 
+/*
+ * 重置布局
+ */
 -(void)resetLayout
 {
     if(m_native)
@@ -133,6 +217,9 @@
     }
 }
 
+/*
+ * 加载方法
+ */
 -(void)onLoad:(bool)allowZoom
 {
     m_allowScroll = true;
@@ -196,23 +283,32 @@
     }
 }
 
+/*
+ * 设置滚动视图
+ */
 -(void)setScrollView:(UIScrollView*)scrollView
 {
     m_scrollView = scrollView;
 }
 
+/*
+ * 获取滚动视图
+ */
 -(UIScrollView*)getScrollView
 {
     return m_scrollView;
 }
 
+/*
+ * 编辑器结束输入
+ */
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
     if(m_editingTextBox)
     {
         if([textField superview])
         {
-            string text = [[m_textBox text] UTF8String];
+            std::string text = [[m_textBox text] UTF8String];
             String wText = FCTran::stringToString(text);
             m_editingTextBox->setText(wText);
             int textLength = (int)wText.length();
@@ -225,12 +321,18 @@
     }
 }
 
+/*
+ * 编辑器回车
+ */
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [self hideTextBox:m_editingTextBox];
     return YES;
 }
 
+/*
+ * 改变时间
+ */
 - (void)changeTime:(UIDatePicker*)sender
 {
     if(m_editingDateTimeButton)
@@ -245,13 +347,16 @@
             [formater setDateFormat:@"yyyy-MM-dd"];
         }
         NSString *dateStr = [formater stringFromDate:m_datePicker.picker.date];
-        string text = [dateStr UTF8String];
+        std::string text = [dateStr UTF8String];
         String wText = FCTran::stringToString(text);
         m_editingDateTimeButton->setText(wText);
         m_native->invalidate();
     }
 }
 
+/*
+ * 获取日期或时间
+ */
 - (void)picker:(UIDatePicker *)picker ValueChanged:(NSDate *)date{
     
     if(m_editingDateTimeButton)
@@ -266,13 +371,16 @@
             [formater setDateFormat:@"yyyy-MM-dd"];
         }
         NSString *dateStr = [formater stringFromDate:date];
-        string text = [dateStr UTF8String];
+        std::string text = [dateStr UTF8String];
         String wText = FCTran::stringToString(text);
         m_editingDateTimeButton->setText(wText);
         m_native->invalidate();
     }
 }
 
+/*
+ * 显示日期显示器
+ */
 -(void)showDatePicker:(DateTimeButton*)dateTimeButton
 {
     if(!m_datePicker)
@@ -309,7 +417,9 @@
     }
 }
 
-//当键盘出现或改变时调用
+/*
+ * 当键盘出现或改变时调用
+ */
 - (void)keyboardWillShow:(NSNotification *)aNotification {
     if(m_textBox){
         //获取键盘的高度
@@ -324,11 +434,16 @@
     }
 }
  
-//当键退出时调用
+/*
+ * 当键退出时调用
+ */
 - (void)keyboardWillHide:(NSNotification *)aNotification {
     
 }
 
+/*
+ * 显示文本框
+ */
 -(void)showTextBox:(FCTextBox*)textBox
 {
     float scaleFactorX = 1, scaleFactorY = 1;
@@ -413,7 +528,7 @@
     if(fontFamily == L"Default"){
         fontFamily = MyColor::getSystemFont();
     }
-    string fstr = FCTran::StringTostring(fontFamily);
+    std::string fstr = FCTran::StringTostring(fontFamily);
     NSString *nsstr = [NSString stringWithUTF8String:fstr.c_str()];
     m_textBox.font = [UIFont fontWithName:nsstr size:fontSize];
     if(textBox->getPasswordChar() != L'\0')
@@ -476,6 +591,9 @@
     [m_textBox becomeFirstResponder];
 }
 
+/*
+ * 创建关闭按钮
+ */
 - (UIImage *)createCloseImage
 {
     CGRect rect = CGRectMake(0, 0, 20, 20);
@@ -503,6 +621,9 @@
     return image;
 }
 
+/*
+ * 文本框开始编辑
+ */
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
     //m_textBox.layer.borderWidth = 0.5;
@@ -510,6 +631,9 @@
     return YES;
 }
 
+/*
+ * 文本框文字改变
+ */
 - (void)textValueChanged:(NSNotification *)notice
 {
     if(m_editingTextBox)
@@ -520,6 +644,9 @@
     }
 }
 
+/*
+ * 隐藏日期选择
+ */
 -(void)hideDatePicker:(DateTimeButton*)dateTimeButton
 {
     if(m_datePicker)
@@ -538,7 +665,7 @@
                     [formater setDateFormat:@"yyyy-MM-dd"];
                 }
                 NSString *dateStr = [formater stringFromDate:m_datePicker.picker.date];
-                string text = [dateStr UTF8String];
+                std::string text = [dateStr UTF8String];
                 String wText = FCTran::stringToString(text);
                 dateTimeButton->setText(wText);
                 m_editingDateTimeButton = 0;
@@ -549,6 +676,9 @@
     }
 }
 
+/*
+ * 隐藏文本框
+ */
 -(void)hideTextBox:(FCTextBox*)textBox
 {
     m_host->setAllowPartialPaint(true);
@@ -560,7 +690,7 @@
             {
                 //textBox->show();
                 textBox->setFocused(false);
-                string text = [[m_textBox text] UTF8String];
+                std::string text = [[m_textBox text] UTF8String];
                 String wText = FCTran::stringToString(text);
                 FCSpin *spin = dynamic_cast<FCSpin*>(textBox);
                 if(spin)
@@ -585,6 +715,9 @@
     }
 }
 
+/*
+ * 触摸开始
+ */
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     if(m_native)
@@ -713,6 +846,9 @@
     }
 }
 
+/*
+ * 触摸退出
+ */
 -(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
     if(m_allowScroll)
@@ -731,6 +867,9 @@
     }
 }
 
+/*
+ * 触摸结束
+ */
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
     if(m_allowScroll)
@@ -751,6 +890,9 @@
     //ctouches.clear();
 }
 
+/*
+ * 触摸移动
+ */
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
     NSArray *touchArray = [event.allTouches allObjects];
@@ -821,14 +963,23 @@
     //ctouches.clear();
 }
 
+/*
+ * 获取主视图
+ */
 -(UIViewController*)getViewController{
     return m_viewController;
 }
 
+/*
+ * 设置主视图
+ */
 -(void)setViewController:(UIViewController*)viewController{
     m_viewController = viewController;
 }
 
+/*
+ * 成为首先的响应者
+ */
 - (BOOL)canBecomeFirstResponder
 {
     UIWindow *window = [[UIApplication sharedApplication].delegate window];

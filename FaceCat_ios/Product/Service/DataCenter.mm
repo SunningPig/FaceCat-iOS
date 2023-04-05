@@ -16,16 +16,16 @@ DataCenter::~DataCenter(){
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-string DataCenter::getAppPath(){
+std::string DataCenter::getAppPath(){
     return [[[NSBundle mainBundle] resourcePath] UTF8String];
 }
 
-string DataCenter::getUserPath(){
+std::string DataCenter::getUserPath(){
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     return [[paths objectAtIndex:0] UTF8String];
 }
 
-string DataCenter::getGuid()
+std::string DataCenter::getGuid()
 {
     CFUUIDRef puuid = CFUUIDCreate(nil);
     CFStringRef uuidString = CFUUIDCreateString(nil, puuid);

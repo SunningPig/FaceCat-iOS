@@ -10,9 +10,18 @@
 #include "FCDraw.h"
 #include "UIXmlEx.h"
 
+/*
+ * 主视图
+ */
 class MainFrame : public UIXmlEx{
 public:
+    /*
+     * 构造函数
+     */
     MainFrame();
+    /*
+     * 析构函数
+     */
     virtual ~MainFrame();
 };
 #endif

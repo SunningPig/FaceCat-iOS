@@ -125,7 +125,7 @@ void RibbonButton::onPaintBackground(FCPaint *paint, const FCRect& clipRect){
                 FCPoint point1 = {0};
                 FCPoint point2 = {0};
                 FCPoint point3 = {0};
-                int ts = min(mw, mh) / 4;
+                int ts = std::min(mw, mh) / 4;
                 switch (m_arrowType){
                     case 1:
                         point1.x = mw - ts;

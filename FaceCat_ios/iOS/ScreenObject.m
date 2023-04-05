@@ -1,10 +1,3 @@
-//
-//  ScreensView.m
-//  ShoppingMall
-//
-//  Created by 冯汉栩 on 2019/11/12.
-//  Copyright © 2019 fenghanxu.compang.cn. All rights reserved.
-//
 
 #import "ScreenObject.h"
 

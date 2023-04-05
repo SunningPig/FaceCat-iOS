@@ -31,7 +31,7 @@ void ArrowButtonM::onPaintBackground(FCPaint *paint, const FCRect& clipRect){
     FCRect drawRect ={0, 0, width, height};
     if (m_arrowType > 0){
         FCPoint points[3] = {0};
-        int ts = min(mw, mh) / 2 + 2;
+        int ts = std::min(mw, mh) / 2 + 2;
         switch (m_arrowType){
             //向左
             case 1:

@@ -24,7 +24,6 @@ namespace FaceCat{
             m_xmlDoc = 0;
         }
         m_viewsMap.clear();
-        m_tempTabPages.clear();
     }
     
     void UIXmlEx::autoSelectFirstRow(FCGrid *grid){
@@ -52,10 +51,10 @@ namespace FaceCat{
     FCView* UIXmlEx::createView(xmlNodePtr node, const String& type){
         int typeLen = (int)type.length();
         switch(typeLen){
-            case 4;
+            case 4:
             case 5:
             {
-                if (type == L"input" || type == "view")
+                if (type == L"input" || type == L"view")
                 {
                     HashMap<String, String> attributes = getAttributes(node);
                     if (attributes.containsKey(L"type"))
@@ -110,7 +109,7 @@ namespace FaceCat{
     
     FCView* UIXmlEx::findView(const String& name){
         FCView *view = 0;
-        map<String, FCView*>::iterator sIter = m_viewsMap.find(name);
+        std::map<String, FCView*>::iterator sIter = m_viewsMap.find(name);
         if(sIter != m_viewsMap.end()){
             view = sIter->second;
         }
@@ -125,7 +124,7 @@ namespace FaceCat{
         return view;
     }
     
-    int UIXmlEx::getColumnsIndex(FCGrid *grid, map<int, FCGridColumn*> *columnsIndex){
+    int UIXmlEx::getColumnsIndex(FCGrid *grid, std::map<int, FCGridColumn*> *columnsIndex){
         ArrayList<FCGridColumn*> columns = grid->m_columns;
         for(int c = 0; c < columns.size(); c++){
             FCGridColumn *column = columns.get(c);
@@ -144,7 +143,7 @@ namespace FaceCat{
             m_xmlDoc = 0;
         }
         m_viewsMap.clear();
-        string xmlFileName = FCTran::StringTostring(fileName);
+        std::string xmlFileName = FCTran::StringTostring(fileName);
         m_xmlDoc = xmlReadFile(xmlFileName.c_str(), 0, XML_PARSE_NOBLANKS);
         if(m_xmlDoc){
             xmlNodePtr node = xmlDocGetRootElement(m_xmlDoc);
@@ -160,7 +159,6 @@ namespace FaceCat{
                 spChildNode = spChildNode->next;
             }
         }
-        m_tempTabPages.clear();
     }
     
     void UIXmlEx::onAddView(FCView *view, xmlNodePtr node){
@@ -248,31 +246,5 @@ namespace FaceCat{
 
     void UIXmlEx::addOutReWrite(String name, IOutReWrite *iOutReWrite){
         m_outReWrites.put(name, iOutReWrite);
-    }
-
-    static bool m_isClickRunning = false;
-
-    bool UIXmlEx::isClickRunning(){
-        return m_isClickRunning;
-    }
-
-    void UIXmlEx::setClickRunning(bool value){
-        m_isClickRunning = value;
-    }
-
-    bool UIXmlEx::goBack(){
-        return false;
-    }
-
-    bool UIXmlEx::goForward(){
-        return false;
-    }
-
-    bool UIXmlEx::canGoBack(){
-        return false;
-    }
-
-    bool UIXmlEx::canGoForward(){
-        return false;
     }
 }

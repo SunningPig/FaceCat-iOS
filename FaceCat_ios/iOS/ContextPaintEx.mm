@@ -49,7 +49,7 @@ UIFont* ContextPaintEx::getUIFont(FCFont *font){
     if(fontFamily == L"Default"){
         fontFamily = MyColor::getSystemFont();
     }
-    string fstr = FCTran::StringTostring(fontFamily);
+    std::string fstr = FCTran::StringTostring(fontFamily);
     NSString *nsstr = [NSString stringWithUTF8String:fstr.c_str()];
     UIFont *uiFont = [UIFont fontWithName:nsstr size:font->m_fontSize];
     if(!uiFont){
@@ -93,7 +93,7 @@ CGSize ContextPaintEx::getCGSize(const FCSize& size){
 }
 
 NSString* ContextPaintEx::getNSString(const wchar_t *str){
-    string fstr = FCTran::StringTostring(str);
+    std::string fstr = FCTran::StringTostring(str);
     return [NSString stringWithUTF8String:fstr.c_str()];
 }
 
@@ -256,7 +256,7 @@ void ContextPaintEx::closePath(){
 void ContextPaintEx::drawArc(Long dwPenColor, float width, int style, const FCRect& rect, float startAngle, float sweepAngle){
     if(dwPenColor == FCColor_None) return;
     dwPenColor = getPaintColor(dwPenColor);
-    CGContextSetLineWidth(m_context, min(m_scaleFactorX, m_scaleFactorY) * width);
+    CGContextSetLineWidth(m_context, std::min(m_scaleFactorX, m_scaleFactorY) * width);
     CGContextSetStrokeColorWithColor(m_context, getUIColor(dwPenColor).CGColor);
     int rw = rect.right - rect.left;
     if (rw < 1) rw = 1;
@@ -294,7 +294,7 @@ void ContextPaintEx::drawBezier(Long dwPenColor, float width, int style, FCPoint
     if(cpt < 3) return;
     if(dwPenColor == FCColor_None) return;
     dwPenColor = getPaintColor(dwPenColor);
-    CGContextSetLineWidth(m_context, min(m_scaleFactorX, m_scaleFactorY) * width);
+    CGContextSetLineWidth(m_context, std::min(m_scaleFactorX, m_scaleFactorY) * width);
     CGContextSetStrokeColorWithColor(m_context, getUIColor(dwPenColor).CGColor);
     CGContextMoveToPoint(m_context, apt[0].x + m_offsetX, apt[0].y + m_offsetY);
     for(int i = 1; i < cpt -2; i = i + 2){
@@ -331,7 +331,7 @@ void ContextPaintEx::drawEllipse(Long dwPenColor, float width, int style, int le
     dwPenColor = getPaintColor(dwPenColor);
     FCRect newRect = {left + m_offsetX, top + m_offsetY, right + m_offsetX, bottom + m_offsetY};
     affectScaleFactor(&newRect);
-    CGContextSetLineWidth(m_context, min(m_scaleFactorX, m_scaleFactorY) * width);
+    CGContextSetLineWidth(m_context, std::min(m_scaleFactorX, m_scaleFactorY) * width);
     CGContextSetStrokeColorWithColor(m_context, getUIColor(dwPenColor).CGColor);
     CGContextAddEllipseInRect(m_context, getCGRect(newRect));
     switch (style) {
@@ -394,7 +394,7 @@ void ContextPaintEx::drawLine(Long dwPenColor, float width, int style, int x1, i
         lx2 = (int)(m_scaleFactorX * lx2);
         ly2 = (int)(m_scaleFactorY * ly2);
     }
-    CGContextSetLineWidth(m_context, min(m_scaleFactorX, m_scaleFactorY) * width);
+    CGContextSetLineWidth(m_context, std::min(m_scaleFactorX, m_scaleFactorY) * width);
     CGContextSetStrokeColorWithColor(m_context, getUIColor(dwPenColor).CGColor);
     CGContextMoveToPoint(m_context, lx1, ly1);
     CGContextAddLineToPoint(m_context, lx2, ly2);
@@ -420,7 +420,7 @@ void ContextPaintEx::drawLine(Long dwPenColor, float width, int style, int x1, i
 void ContextPaintEx::drawPath(Long dwPenColor, float width, int style){
     if(dwPenColor == FCColor_None) return;
     dwPenColor = getPaintColor(dwPenColor);
-    CGContextSetLineWidth(m_context, min(m_scaleFactorX, m_scaleFactorY) * width);
+    CGContextSetLineWidth(m_context, std::min(m_scaleFactorX, m_scaleFactorY) * width);
     CGContextSetStrokeColorWithColor(m_context, getUIColor(dwPenColor).CGColor);
     switch (style) {
         case 0:{
@@ -452,7 +452,7 @@ void ContextPaintEx::drawPie(Long dwPenColor, float width, int style, const FCRe
     CGFloat originY = cgRect.origin.y + radius;
     dwPenColor = getPaintColor(dwPenColor);
     CGContextSetStrokeColorWithColor(m_context, getUIColor(dwPenColor).CGColor);
-    CGContextSetLineWidth(m_context, min(m_scaleFactorX, m_scaleFactorY) * width);
+    CGContextSetLineWidth(m_context, std::min(m_scaleFactorX, m_scaleFactorY) * width);
     switch (style) {
         case 0:{
             CGContextSetLineDash(m_context, 0, 0, 0);
@@ -483,7 +483,7 @@ void ContextPaintEx::drawPie(Long dwPenColor, float width, int style, const FCRe
 void ContextPaintEx::drawPolygon(Long dwPenColor, float width, int style, FCPoint *apt, int cpt){
     if(dwPenColor == FCColor_None) return;
     dwPenColor = getPaintColor(dwPenColor);
-    CGContextSetLineWidth(m_context, min(m_scaleFactorX, m_scaleFactorY) * width);
+    CGContextSetLineWidth(m_context, std::min(m_scaleFactorX, m_scaleFactorY) * width);
     CGContextSetStrokeColorWithColor(m_context, getUIColor(dwPenColor).CGColor);
     int fx = 0, fy = 0;
     for(int i = 0; i < cpt; i++){
@@ -537,7 +537,7 @@ void ContextPaintEx::drawPolygon(Long dwPenColor, float width, int style, FCPoin
 void ContextPaintEx::drawPolyline(Long dwPenColor, float width, int style, FCPoint *apt, int cpt){
     if(dwPenColor == FCColor_None) return;
     dwPenColor = getPaintColor(dwPenColor);
-    CGContextSetLineWidth(m_context, min(m_scaleFactorX, m_scaleFactorY) * width);
+    CGContextSetLineWidth(m_context, std::min(m_scaleFactorX, m_scaleFactorY) * width);
     CGContextSetStrokeColorWithColor(m_context, getUIColor(dwPenColor).CGColor);
     for(int i = 0; i < cpt; i++){
         int x = apt[i].x + m_offsetX;
@@ -585,7 +585,7 @@ void ContextPaintEx::drawRect(Long dwPenColor, float width, int style, int left,
         dwPenColor = getPaintColor(dwPenColor);
         FCRect newRect = {left + m_offsetX, top + m_offsetY, right + m_offsetX, bottom + m_offsetY};
         affectScaleFactor(&newRect);
-        CGContextSetLineWidth(m_context, min(m_scaleFactorX, m_scaleFactorY) * width);
+        CGContextSetLineWidth(m_context, std::min(m_scaleFactorX, m_scaleFactorY) * width);
         CGContextSetStrokeColorWithColor(m_context, getUIColor(dwPenColor).CGColor);
         CGContextAddRect(m_context, getCGRect(newRect));
         switch (style) {
@@ -624,7 +624,7 @@ void ContextPaintEx::drawRoundRect(Long dwPenColor, float width, int style, cons
         dwPenColor = getPaintColor(dwPenColor);
         FCRect newRect = {rect.left + m_offsetX, rect.top + m_offsetY, rect.right + m_offsetX, rect.bottom + m_offsetY};
         affectScaleFactor(&newRect);
-        CGContextSetLineWidth(m_context, min(m_scaleFactorX, m_scaleFactorY) * width);
+        CGContextSetLineWidth(m_context, std::min(m_scaleFactorX, m_scaleFactorY) * width);
         CGContextSetStrokeColorWithColor(m_context, getUIColor(dwPenColor).CGColor);
         CGRect cgRect = getCGRect(newRect);
         cgRect.origin.x += width;

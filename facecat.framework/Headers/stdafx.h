@@ -29,7 +29,5 @@
 #import <UIKit/UIKit.h>
 //#import <Cocoa/Cocoa.h>
 #include <string>
-using namespace std;
-//#include "FCLib.h"
-//using namespace FaceCat;
+#include "FCLib.h"
 #endif
